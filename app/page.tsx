@@ -1,76 +1,70 @@
 'use client'
 
 import { useState } from 'react'
-import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail, ChevronLeft, ChevronRight, Image } from 'lucide-react'
+import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail } from 'lucide-react'
 
 interface Box {
   title: string;
   content: string;
   color: string;
   details: string;
-  icon?: React.ReactNode;
-}
-interface Project {
-  title: string;
-  content: string;
+  icon: React.ReactNode;
 }
 
 export default function Component() {
   const [selectedBox, setSelectedBox] = useState<Box | null>(null)
-  const [currentProject, setCurrentProject] = useState(0)
 
   const boxes = [
-  {
-    title: 'About Me',
-    content: 'A passionate developer focused on creating elegant solutions to complex problems.',
-    color: '#B2D9E0',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <User />
-  },
-  {
-    title: 'Hard Skills',
-    content: 'JavaScript, React, Node.js',
-    color: '#567B81',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <Code />
-  },
-  {
-    title: 'Soft Skills',
-    content: 'Team Leadership, Communication, Problem Solving',
-    color: '#F9B97F',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <Heart />
-  },
-  {
-    title: 'Education',
-    content: 'Bachelor in Computer Science, University Name, 2018-2022',
-    color: '#CC7229',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <GraduationCap />
-  },
-  {
-    title: 'Professional Experience',
-    content: 'Senior Developer, Company Name, 2022-Present',
-    color: '#A7BA93',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <Briefcase />
-  },
-  {
-    title: 'Projects',
-    content: 'Project 1, Project 2',
-    color: '#567B81',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <FolderGit2 />
-  },
-  {
-    title: 'Contact',
-    content: 'email@example.com, linkedin.com/in/username',
-    color: '#B2D9E0',
-    details: 'Lorem ipsum dolor sit amet...',
-    icon: <Mail />
-  },
-]
-
+    {
+      title: 'About Me',
+      content: 'A passionate developer focused on creating elegant solutions to complex problems.',
+      color: '#B2D9E0',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <User className="inline-block mr-2" />
+    },
+    {
+      title: 'Hard Skills',
+      content: 'JavaScript, React, Node.js',
+      color: '#567B81',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <Code className="inline-block mr-2" />
+    },
+    {
+      title: 'Soft Skills',
+      content: 'Team Leadership, Communication, Problem Solving',
+      color: '#F9B97F',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <Heart className="inline-block mr-2" />
+    },
+    {
+      title: 'Education',
+      content: 'Bachelor in Computer Science, University Name, 2018-2022',
+      color: '#CC7229',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <GraduationCap className="inline-block mr-2" />
+    },
+    {
+      title: 'Professional Experience',
+      content: 'Senior Developer, Company Name, 2022-Present',
+      color: '#A7BA93',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <Briefcase className="inline-block mr-2" />
+    },
+    {
+      title: 'Projects',
+      content: 'Project 1, Project 2',
+      color: '#567B81',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <FolderGit2 className="inline-block mr-2" />
+    },
+    {
+      title: 'Contact',
+      content: 'email@example.com, linkedin.com/in/username',
+      color: '#B2D9E0',
+      details: 'Lorem ipsum dolor sit amet...',
+      icon: <Mail className="inline-block mr-2" />
+    },
+  ]
 
   return (
     <div className="h-screen w-screen p-4 bg-tertiary">
@@ -85,7 +79,10 @@ export default function Component() {
             style={{ backgroundColor: box.color }}
             onClick={() => setSelectedBox(box)}
           >
-            <h2 className="text-xl font-bold mb-3 text-tertiary">{box.title}</h2>
+            <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
+              {box.icon}
+              {box.title}
+            </h2>
             <p className="text-gray-100">{box.content}</p>
           </div>
         ))}
@@ -107,7 +104,10 @@ export default function Component() {
             >
               <X size={24} />
             </button>
-            <h2 className="text-3xl font-bold mb-4 text-tertiary">{selectedBox.title}</h2>
+            <h2 className="text-3xl font-bold mb-4 text-tertiary flex items-center">
+              {selectedBox.icon}
+              {selectedBox.title}
+            </h2>
             <div className="space-y-4">
               <p className="text-gray-100">{selectedBox.content}</p>
               <p className="text-gray-100 leading-relaxed">{selectedBox.details}</p>
@@ -118,3 +118,4 @@ export default function Component() {
     </div>
   )
 }
+
