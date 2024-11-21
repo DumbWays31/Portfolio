@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail, ChevronLeft, ChevronRight, Image } from 'lucide-react'
+import myPhoto from '../public/elena-ferreira.jpg'
 
 interface Project {
   title: string;
@@ -29,6 +30,13 @@ export default function Component() {
       color: '#B2D9E0',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <User className="inline-block mr-2" />
+    },
+    {
+      title: 'Photo',
+      content: 'Your professional photo',
+      color: '#F0F0F0',
+      details: 'A professional headshot or a photo that represents you',
+      icon: <Image className="inline-block mr-2" />
     },
     {
       title: 'Hard Skills',
@@ -87,14 +95,20 @@ export default function Component() {
       <div className="grid grid-cols-4 grid-rows-3 gap-4 h-[calc(100%-5rem)]">
         {boxes.map((box, index) => (
           <div
-            key={index}
-            className={`rounded-3xl p-6 shadow-sm cursor-pointer transition-all duration-300 hover:shadow-md hover:scale-[1.02] ${
-              index === 0 ? 'col-span-2 row-span-2' : index === 3 || index === 4 ? 'col-span-2' : ''
-            }`}
-            style={{ backgroundColor: box.color }}
-            onClick={() => setSelectedBox(box)}
-          >
-            {box.projects ? (
+          key={index}
+          className={`rounded-3xl ${
+            box.title === 'Photo' ? '' : 'p-6'
+          } shadow-sm cursor-pointer transition-all duration-300 hover:shadow-md hover:scale-[1.02] ${
+            index === 5 ? 'col-span-2 row-span-2' : index === 4 ? 'col-span-2' : ''
+          }`}
+          style={{ backgroundColor: box.color }}
+          onClick={() => setSelectedBox(box)}
+        >
+            {box.title === 'Photo' ? (
+              <div className="w-full h-full flex items-center justify-center">
+                <img src={myPhoto.src} alt="Elena Ferreira" className="w-full h-full object-cover rounded-3xl" />
+              </div>
+            ) : box.projects ? (
               <div className="relative h-full">
                 <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
                   {box.icon}
@@ -167,12 +181,20 @@ export default function Component() {
               </p>
             )}
             <div className="space-y-4">
-              <p className="text-gray-100">
-                {selectedBox.projects ? selectedBox.projects[currentProject].content : selectedBox.content}
-              </p>
-              <p className="text-gray-100 leading-relaxed">
-                {selectedBox.projects ? selectedBox.projects[currentProject].details : selectedBox.details}
-              </p>
+              {selectedBox.title === 'Photo' ? (
+                <div className="w-full flex items-center justify-center">
+                  <img src={myPhoto.src} alt="Elena Ferreira" className="w-64 h-64 object-cover rounded-full" />
+                </div>
+              ) : (
+                <>
+                  <p className="text-gray-100">
+                    {selectedBox.projects ? selectedBox.projects[currentProject].content : selectedBox.content}
+                  </p>
+                  <p className="text-gray-100 leading-relaxed">
+                    {selectedBox.projects ? selectedBox.projects[currentProject].details : selectedBox.details}
+                  </p>
+                </>
+              )}
             </div>
             {selectedBox.projects && (
               <div className="flex justify-between mt-4">
