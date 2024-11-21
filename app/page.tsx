@@ -95,56 +95,56 @@ export default function Component() {
       <div className="grid grid-cols-4 grid-rows-3 gap-4 h-[calc(100%-5rem)]">
         {boxes.map((box, index) => (
           <div
-          key={index}
-          className={`rounded-3xl ${
-            box.title === 'Photo' ? '' : 'p-6'
-          } shadow-sm cursor-pointer transition-all duration-300 hover:shadow-md hover:scale-[1.02] ${
-            index === 5 ? 'col-span-2 row-span-2' : index === 4 ? 'col-span-2' : ''
-          }`}
-          style={{ backgroundColor: box.color }}
-          onClick={() => setSelectedBox(box)}
-        >
-            {box.title === 'Photo' ? (
-              <div className="w-full h-full flex items-center justify-center">
-                <img src={myPhoto.src} alt="Elena Ferreira" className="w-full h-full object-cover rounded-3xl" />
+            key={index}
+            className={`transition-all duration-300 rounded-3xl ${
+              box.title === 'Photo' ? '' : 'cursor-pointer p-6 shadow-sm hover:shadow-md hover:scale-[1.02]'
+            } ${
+              index === 5 ? 'col-span-2 row-span-2' : index === 4 ? 'col-span-2' : ''
+            }`}
+            style={{ backgroundColor: box.color }}
+            onClick={() => setSelectedBox(box.title === 'Photo' ? null : box)}
+          >
+          {box.title === 'Photo' ? (
+            <div className="w-full h-full flex items-center justify-center">
+              <img src={myPhoto.src} alt="Elena Ferreira" className="w-full h-full object-cover rounded-3xl" />
+            </div>
+          ) : box.projects ? (
+            <div className="relative h-full">
+              <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
+                {box.icon}
+                {box.projects[currentProject].title}
+              </h2>
+              <p className="text-gray-100">{box.projects[currentProject].content}</p>
+              <div className="absolute bottom-0 left-0 right-0 flex justify-between">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentProject((prev) => (prev === 0 ? box.projects!.length - 1 : prev - 1));
+                  }}
+                  className="text-tertiary hover:text-white transition-colors duration-200"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentProject((prev) => (prev === box.projects!.length - 1 ? 0 : prev + 1));
+                  }}
+                  className="text-tertiary hover:text-white transition-colors duration-200"
+                >
+                  <ChevronRight size={24} />
+                </button>
               </div>
-            ) : box.projects ? (
-              <div className="relative h-full">
-                <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
-                  {box.icon}
-                  {box.projects[currentProject].title}
-                </h2>
-                <p className="text-gray-100">{box.projects[currentProject].content}</p>
-                <div className="absolute bottom-0 left-0 right-0 flex justify-between">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentProject((prev) => (prev === 0 ? box.projects!.length - 1 : prev - 1));
-                    }}
-                    className="text-tertiary hover:text-white transition-colors duration-200"
-                  >
-                    <ChevronLeft size={24} />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentProject((prev) => (prev === box.projects!.length - 1 ? 0 : prev + 1));
-                    }}
-                    className="text-tertiary hover:text-white transition-colors duration-200"
-                  >
-                    <ChevronRight size={24} />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
-                  {box.icon}
-                  {box.title}
-                </h2>
-                <p className="text-gray-100">{box.content}</p>
-              </>
-            )}
+            </div>
+          ) : (
+          <>
+            <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
+              {box.icon}
+              {box.title}
+            </h2>
+              <p className="text-gray-100">{box.content}</p>
+            </>
+          )}
           </div>
         ))}
       </div>
