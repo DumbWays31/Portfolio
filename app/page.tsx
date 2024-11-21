@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail, ChevronLeft, ChevronRight, Image } from 'lucide-react'
 import myPhoto from '../public/elena-ferreira.jpg'
 
@@ -22,6 +22,22 @@ interface Box {
 export default function Component() {
   const [selectedBox, setSelectedBox] = useState<Box | null>(null)
   const [currentProject, setCurrentProject] = useState(0)
+
+  // Quitter avec Escape
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedBox(null);
+        setCurrentProject(0);
+      }
+    };
+    if (selectedBox) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedBox]);
 
   const boxes = [
     {
@@ -196,28 +212,9 @@ export default function Component() {
                 </>
               )}
             </div>
-            {selectedBox.projects && (
-              <div className="flex justify-between mt-4">
-                <button
-                  onClick={() => setCurrentProject((prev) => (prev === 0 ? selectedBox.projects!.length - 1 : prev - 1))}
-                  className="text-tertiary hover:text-white transition-colors duration-200"
-                  aria-label="Previous project"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  onClick={() => setCurrentProject((prev) => (prev === selectedBox.projects!.length - 1 ? 0 : prev + 1))}
-                  className="text-tertiary hover:text-white transition-colors duration-200"
-                  aria-label="Next project"
-                >
-                  <ChevronRight size={24} />
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }
-
