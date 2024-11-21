@@ -1,7 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail } from 'lucide-react'
+import { X, User, Code, Heart, GraduationCap, Briefcase, FolderGit2, Mail, ChevronLeft, ChevronRight } from 'lucide-react'
+
+interface Project {
+  title: string;
+  content: string;
+  details: string;
+}
 
 interface Box {
   title: string;
@@ -9,10 +15,12 @@ interface Box {
   color: string;
   details: string;
   icon: React.ReactNode;
+  projects?: Project[];
 }
 
 export default function Component() {
   const [selectedBox, setSelectedBox] = useState<Box | null>(null)
+  const [currentProject, setCurrentProject] = useState(0)
 
   const boxes = [
     {
@@ -52,10 +60,17 @@ export default function Component() {
     },
     {
       title: 'Projects',
-      content: 'Project 1, Project 2',
+      content: '',
       color: '#567B81',
       details: 'Lorem ipsum dolor sit amet...',
-      icon: <FolderGit2 className="inline-block mr-2" />
+      icon: <FolderGit2 className="inline-block mr-2" />,
+      projects: [
+        { title: 'Project 1', content: 'Description of Project 1', details: 'Detailed information about Project 1...' },
+        { title: 'Project 2', content: 'Description of Project 2', details: 'Detailed information about Project 2...' },
+        { title: 'Project 3', content: 'Description of Project 3', details: 'Detailed information about Project 3...' },
+        { title: 'Project 4', content: 'Description of Project 4', details: 'Detailed information about Project 4...' },
+        { title: 'Project 5', content: 'Description of Project 5', details: 'Detailed information about Project 5...' },
+      ]
     },
     {
       title: 'Contact',
@@ -79,11 +94,43 @@ export default function Component() {
             style={{ backgroundColor: box.color }}
             onClick={() => setSelectedBox(box)}
           >
-            <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
-              {box.icon}
-              {box.title}
-            </h2>
-            <p className="text-gray-100">{box.content}</p>
+            {box.projects ? (
+              <div className="relative h-full">
+                <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
+                  {box.icon}
+                  {box.projects[currentProject].title}
+                </h2>
+                <p className="text-gray-100">{box.projects[currentProject].content}</p>
+                <div className="absolute bottom-0 left-0 right-0 flex justify-between">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentProject((prev) => (prev === 0 ? box.projects!.length - 1 : prev - 1));
+                    }}
+                    className="text-tertiary hover:text-white transition-colors duration-200"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentProject((prev) => (prev === box.projects!.length - 1 ? 0 : prev + 1));
+                    }}
+                    className="text-tertiary hover:text-white transition-colors duration-200"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
+                  {box.icon}
+                  {box.title}
+                </h2>
+                <p className="text-gray-100">{box.content}</p>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -91,7 +138,10 @@ export default function Component() {
       {selectedBox && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 transition-opacity duration-300 backdrop-blur-sm"
-          onClick={() => setSelectedBox(null)}
+          onClick={() => {
+            setSelectedBox(null);
+            setCurrentProject(0);
+          }}
         >
           <div 
             className="bg-white rounded-3xl p-8 max-w-2xl w-full relative transition-all duration-300 transform scale-100 opacity-100"
@@ -100,18 +150,48 @@ export default function Component() {
           >
             <button
               className="absolute top-4 right-4 text-tertiary hover:text-white transition-colors duration-200"
-              onClick={() => setSelectedBox(null)}
+              onClick={() => {
+                setSelectedBox(null);
+                setCurrentProject(0);
+              }}
             >
               <X size={24} />
             </button>
             <h2 className="text-3xl font-bold mb-4 text-tertiary flex items-center">
               {selectedBox.icon}
-              {selectedBox.title}
+              {selectedBox.projects ? selectedBox.projects[currentProject].title : selectedBox.title}
             </h2>
+            {selectedBox.projects && (
+              <p className="text-sm text-tertiary mb-2">
+                Project {currentProject + 1} of {selectedBox.projects.length}
+              </p>
+            )}
             <div className="space-y-4">
-              <p className="text-gray-100">{selectedBox.content}</p>
-              <p className="text-gray-100 leading-relaxed">{selectedBox.details}</p>
+              <p className="text-gray-100">
+                {selectedBox.projects ? selectedBox.projects[currentProject].content : selectedBox.content}
+              </p>
+              <p className="text-gray-100 leading-relaxed">
+                {selectedBox.projects ? selectedBox.projects[currentProject].details : selectedBox.details}
+              </p>
             </div>
+            {selectedBox.projects && (
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={() => setCurrentProject((prev) => (prev === 0 ? selectedBox.projects!.length - 1 : prev - 1))}
+                  className="text-tertiary hover:text-white transition-colors duration-200"
+                  aria-label="Previous project"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={() => setCurrentProject((prev) => (prev === selectedBox.projects!.length - 1 ? 0 : prev + 1))}
+                  className="text-tertiary hover:text-white transition-colors duration-200"
+                  aria-label="Next project"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
