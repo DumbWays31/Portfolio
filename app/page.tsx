@@ -14,6 +14,7 @@ interface Box {
   title: string;
   content: string;
   color: string;
+  titleColor: string;
   details: string;
   icon: React.ReactNode;
   projects?: Project[];
@@ -43,7 +44,8 @@ export default function Component() {
     {
       title: 'About Me',
       content: 'A passionate developer focused on creating elegant solutions to complex problems.',
-      color: '#B2D9E0',
+      color: '#8ecae6',
+      titleColor: '#1D3557',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <User className="inline-block mr-2" />
     },
@@ -51,41 +53,47 @@ export default function Component() {
       title: 'Photo',
       content: 'Your professional photo',
       color: '#F0F0F0',
+      titleColor: '#457B9D',
       details: 'A professional headshot or a photo that represents you',
       icon: <Image className="inline-block mr-2" />
     },
     {
       title: 'Hard Skills',
       content: 'JavaScript, React, Node.js',
-      color: '#567B81',
+      color: '#457B9D',
+      titleColor: '#F1FAEE',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <Code className="inline-block mr-2" />
     },
     {
       title: 'Soft Skills',
       content: 'Team Leadership, Communication, Problem Solving',
-      color: '#F9B97F',
+      color: '#4c956c',
+      titleColor: '#F1FAEE',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <Heart className="inline-block mr-2" />
     },
     {
       title: 'Education',
       content: 'Bachelor in Computer Science, University Name, 2018-2022',
-      color: '#CC7229',
+      color: '#4c956c',
+      titleColor: '#F1FAEE',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <GraduationCap className="inline-block mr-2" />
     },
     {
       title: 'Professional Experience',
       content: 'Senior Developer, Company Name, 2022-Present',
-      color: '#A7BA93',
+      color: '#1D3557',
+      titleColor: '#F1FAEE',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <Briefcase className="inline-block mr-2" />
     },
     {
       title: 'Projects',
       content: '',
-      color: '#567B81',
+      color: '#457B9D',
+      titleColor: '#F1FAEE',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <FolderGit2 className="inline-block mr-2" />,
       projects: [
@@ -99,7 +107,8 @@ export default function Component() {
     {
       title: 'Contact',
       content: 'email@example.com, linkedin.com/in/username',
-      color: '#B2D9E0',
+      color: '#8ecae6',
+      titleColor: '#1D3557',
       details: 'Lorem ipsum dolor sit amet...',
       icon: <Mail className="inline-block mr-2" />
     },
@@ -120,47 +129,47 @@ export default function Component() {
             style={{ backgroundColor: box.color }}
             onClick={() => setSelectedBox(box.title === 'Photo' ? null : box)}
           >
-          {box.title === 'Photo' ? (
-            <div className="w-full h-full flex items-center justify-center">
-              <img src={myPhoto.src} alt="Elena Ferreira" className="w-full h-full object-cover rounded-3xl" />
-            </div>
-          ) : box.projects ? (
-            <div className="relative h-full">
-              <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
-                {box.icon}
-                {box.projects[currentProject].title}
-              </h2>
-              <p className="text-gray-100">{box.projects[currentProject].content}</p>
-              <div className="absolute bottom-0 left-0 right-0 flex justify-between">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentProject((prev) => (prev === 0 ? box.projects!.length - 1 : prev - 1));
-                  }}
-                  className="text-tertiary hover:text-white transition-colors duration-200"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentProject((prev) => (prev === box.projects!.length - 1 ? 0 : prev + 1));
-                  }}
-                  className="text-tertiary hover:text-white transition-colors duration-200"
-                >
-                  <ChevronRight size={24} />
-                </button>
+            {box.title === 'Photo' ? (
+              <div className="w-full h-full flex items-center justify-center">
+                <img src={myPhoto.src} alt="Elena Ferreira" className="w-full h-full object-cover rounded-3xl" />
               </div>
-            </div>
-          ) : (
-          <>
-            <h2 className="text-xl font-bold mb-3 text-tertiary flex items-center">
-              {box.icon}
-              {box.title}
-            </h2>
-              <p className="text-gray-100">{box.content}</p>
-            </>
-          )}
+            ) : box.projects ? (
+              <div className="relative h-full">
+                <h2 className="text-xl font-bold mb-3 flex items-center" style={{ color: box.titleColor }}>
+                  {box.icon}
+                  {box.projects[currentProject].title}
+                </h2>
+                <p className="text-gray-100">{box.projects[currentProject].content}</p>
+                <div className="absolute bottom-0 left-0 right-0 flex justify-between">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentProject((prev) => (prev === 0 ? box.projects!.length - 1 : prev - 1));
+                    }}
+                    className="text-tertiary hover:text-white transition-colors duration-200"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentProject((prev) => (prev === box.projects!.length - 1 ? 0 : prev + 1));
+                    }}
+                    className="text-tertiary hover:text-white transition-colors duration-200"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-bold mb-3 flex items-center" style={{ color: box.titleColor }}>
+                  {box.icon}
+                  {box.title}
+                </h2>
+                <p className="text-gray-100">{box.content}</p>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -187,7 +196,7 @@ export default function Component() {
             >
               <X size={24} />
             </button>
-            <h2 className="text-3xl font-bold mb-4 text-tertiary flex items-center">
+            <h2 className="text-3xl font-bold mb-4 flex items-center" style={{ color: selectedBox.titleColor }}>
               {selectedBox.icon}
               {selectedBox.projects ? selectedBox.projects[currentProject].title : selectedBox.title}
             </h2>
@@ -212,9 +221,27 @@ export default function Component() {
                 </>
               )}
             </div>
+            {selectedBox.projects && (
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={() => setCurrentProject((prev) => (prev === 0 ? selectedBox.projects!.length - 1 : prev - 1))}
+                  className="text-tertiary hover:text-white transition-colors duration-200"
+                  aria-label="Previous project"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={() => setCurrentProject((prev) => (prev === selectedBox.projects!.length - 1 ? 0 : prev + 1))}
+                  className="text-tertiary hover:text-white transition-colors duration-200"
+                  aria-label="Next project"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
     </div>
-  );
+  )
 }
